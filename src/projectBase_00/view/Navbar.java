@@ -9,7 +9,7 @@ public class Navbar {
         UserController userController = new UserController();
         User userLogin = userController.getUserLogin();
         System.out.println("******************* Menu *******************");
-        System.out.println("1. List Products ");
+        System.out.println("1. Category Product ");
         System.out.println("2. About Us");
         System.out.println("3. Production Process");
         System.out.println("4. Ability");

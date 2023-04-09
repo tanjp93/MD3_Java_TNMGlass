@@ -11,6 +11,7 @@ public class Config<T> {
     public static final String PATH_LOGIN = "src/projectBase_00/database/user_principal.csv";
     public static final String PATH_LIST_PRODUCT = "src/projectBase_00/database/listProduct.csv";
     public static final String PATH_CATEGORY = "src/projectBase_00/database/categories.csv";
+    public static final String PATH_CART = "src/projectBase_00/database/listCarts.csv";
 
     public List<T> readFromFile(String pathFile) {
         File file = new File(pathFile);

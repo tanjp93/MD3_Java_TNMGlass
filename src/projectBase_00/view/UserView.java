@@ -22,8 +22,6 @@ public class UserView {
         Set<Role> roleSetLogin = null;
         if (user != null) {
             roleSetLogin = user.getRoles();
-        }
-        if (user != null) {
             System.out.println("1. Show personalInfo");
             System.out.println("2. Edit personalInfo");
             System.out.println("3. LogOut");
@@ -69,6 +67,7 @@ public class UserView {
                 case 1:
                     new UserView().formRegister();
                     formLogin();
+                    new Navbar();
                     break;
                 case 2:
                     new UserView().formLogin();
@@ -98,10 +97,7 @@ public class UserView {
         System.out.println("Enter the password: ");
         String password = Config.scanner.nextLine();
         password = userController.checkPassword(password);
-//        System.out.println("Enter the role: ");
-//        String role = Config.scanner.nextLine();
         Set<String> strRole = new HashSet<>();
-//        strRole.add(role);
         strRole.add("user");
         RegisterDTO register = new RegisterDTO(id, name, username, email, password, strRole);
         while (true) {
@@ -210,8 +206,9 @@ public class UserView {
         roleSet.add(role);
         System.out.println("Change Status");
         System.out.println("0. Block");
-        System.out.println("1. Press any key to Active");
-        Boolean status = Boolean.parseBoolean(Config.scanner.nextLine());
+        System.out.println("1. Active");
+        int setStt=Integer.parseInt(Config.scanner.nextLine());
+         boolean status=(setStt==0)?false:true;
         user.setRoles(roleSet);
         user.setStatus(status);
         userController.updateUser(user);

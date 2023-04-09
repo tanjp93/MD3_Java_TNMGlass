@@ -17,8 +17,8 @@ public class ProductController {
     public void updateProduct(Product product){
         productService.save(product);
     }
-    public void productDetail(int id){
-        productService.findById(id);
+    public Product productDetail(int id){
+        return productService.findById(id);
     }
     public List<Product>  showPrdByCategoryId(int categoryId){
         return  productService.sortProductByCategoryId(categoryId);

@@ -11,8 +11,10 @@ import projectBase_00.service.role.IRoleService;
 import projectBase_00.service.role.RoleServiceIMPL;
 import projectBase_00.service.user.IUserService;
 import projectBase_00.service.user.UserServiceIMPL;
+import projectBase_00.view.CategoryView;
 import projectBase_00.view.Navbar;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +24,7 @@ import java.util.regex.Pattern;
 public class UserController {
     private IUserService userService = new UserServiceIMPL();
     private IRoleService roleService = new RoleServiceIMPL();
+    Set<Role> roleSetLogin = new HashSet<>();
 
     public ResponseMessage register(RegisterDTO userDTO) {
         if (userService.existedByUsername(userDTO.getName())) {
@@ -110,4 +113,22 @@ public class UserController {
     public User findUserById(int id){
       return userService.findById(id);
     }
+    public List<ResponseMessage> checkRole() {
+        List<ResponseMessage> listResponse=new ArrayList<>();
+        User user = getUserLogin();
+        if (user != null) {
+            roleSetLogin = user.getRoles();
+            roleSetLogin.forEach(role -> {
+                if (role.getRoleName() == RoleName.ADMIN) {
+                    listResponse.add((new ResponseMessage("ADMIN")));
+                } else if (role.getRoleName() == RoleName.PM) {
+                    listResponse.add((new ResponseMessage("PM")));
+                }else {
+                    listResponse.add(new ResponseMessage("user"));
+                }
+            });
+        }
+        return listResponse;
+    }
+
 }
