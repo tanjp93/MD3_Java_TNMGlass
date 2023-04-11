@@ -1,4 +1,5 @@
 package projectBase_00.view;
+
 import projectBase_00.config.Config;
 import projectBase_00.controller.CartController;
 import projectBase_00.controller.UserController;
@@ -42,6 +43,11 @@ public class CartView {
             cart.setStatus("Order");//4
             LocalDateTime now = LocalDateTime.now();
             cart.setTimeBuy(now);//5
+            for (int i = 0; i < orderProductList.size(); i++) {
+                total += orderProductList.get(i).getProduct().getPrice() * orderProductList.get(i).getQuantity();
+            }
+            // ***************************** //
+            cart.setTotal(total);
             //create a new list cart
         }
         //co list
@@ -51,39 +57,58 @@ public class CartView {
             if (cart != null) {
                 //co ton tai user
                 //Case 1 : user in list cart is existed .
-
                 if (new OrderProductView().checkProductInOrderList(orderProductList, orderProduct.getProduct())) {
                     // co product in List va update
                     System.out.println("Product is existed in your Cart! Would you like to change quantity?");
                     System.out.println("1. Go to Cart");
                     System.out.println("2. Change quantity");
-                        int choice = Integer.parseInt(Config.scanner.nextLine());
-                        switch (choice) {
-                            case 1:
-                                showUserCart(user);
-                                break;
-                            case 2:
-                                for (int i = 0; i < orderProductList.size(); i++) {
-                                    if (orderProductList.get(i).getProduct().getId()==orderProduct.getProduct().getId()){
-                                        int quantity=orderProductList.get(i).getQuantity()+orderProduct.getQuantity();
-                                        System.out.println("quantity---->"+quantity);
-                                        orderProduct.setQuantity(quantity);
-                                    }
+                    int choice = Integer.parseInt(Config.scanner.nextLine());
+                    switch (choice) {
+                        case 1:
+                            showUserCart(user);
+                            break;
+                        case 2:
+                            for (int i = 0; i < orderProductList.size(); i++) {
+                                if (orderProductList.get(i).getProduct().getId() == orderProduct.getProduct().getId()) {
+                                    int quantity = orderProductList.get(i).getQuantity() + orderProduct.getQuantity();
+                                    orderProduct.setQuantity(quantity);
+                                    // ***************************** //
+                                    cart.setUser(user);//2
+                                    cart.setListProductCart(orderProductList);//3
+                                    cart.setStatus("Order");//4
+                                    LocalDateTime now = LocalDateTime.now();
+                                    cart.setTimeBuy(now);//5
+                                    orderProductList.set(i, orderProduct);
                                 }
-                                break;
-                            default:
-                                System.out.println("Invalid choice! Please try again ! ");
-                                new CategoryView();
-                                break;
+                            }
+                            for (int i = 0; i < orderProductList.size(); i++) {
+                                if (orderProductList.get(i).getProduct().getId() == orderProduct.getProduct().getId()){
+                                    total += orderProductList.get(i).getProduct().getPrice() * orderProductList.get(i).getQuantity();
+                                }
+                            }
+                            cart.setTotal(total);
+                            break;
+                        default:
+                            System.out.println("Invalid choice! Please try again ! ");
+                            new CategoryView();
+                            break;
                     }
                 } else {
                     //chua co proudct in List
                     idOrderProduct = orderProductList.get(orderProductList.size() - 1).getId() + 1;
                     orderProduct.setId(idOrderProduct);
                     orderProductList.add(orderProduct);
+                    for (int i = 0; i < orderProductList.size(); i++) {
+                        total += orderProductList.get(i).getProduct().getPrice() * orderProductList.get(i).getQuantity();
+                    }
+                    // ***************************** //
+                    cart.setUser(user);//2
+                    cart.setListProductCart(orderProductList);//3
+                    cart.setStatus("Order");//4
+                    LocalDateTime now = LocalDateTime.now();
+                    cart.setTimeBuy(now);//5
+                    cart.setTotal(total);
                 }
-
-
             } else {
                 //khong ton tai user
                 //Case 2 : user in list cart is not existed .
@@ -92,17 +117,18 @@ public class CartView {
                 orderProduct.setId(idOrderProduct);
                 orderProductList.add(orderProduct);
                 cart.setListProductCart(orderProductList);//2
+                for (int i = 0; i < orderProductList.size(); i++) {
+                    total += orderProductList.get(i).getProduct().getPrice() * orderProductList.get(i).getQuantity();
+                }
+                // ***************************** //
+                cart.setUser(user);//2
+                cart.setListProductCart(orderProductList);//3
+                cart.setStatus("Order");//4
+                LocalDateTime now = LocalDateTime.now();
+                cart.setTimeBuy(now);//5
+                cart.setTotal(total);
             }
-            for (int i = 0; i < orderProductList.size(); i++) {
-                total += orderProductList.get(i).getProduct().getPrice() * orderProductList.get(i).getQuantity();
-            }
-            // ***************************** //
-            cart.setUser(user);//2
-            cart.setListProductCart(orderProductList);//3
-            cart.setStatus("Order");//4
-            LocalDateTime now = LocalDateTime.now();
-            cart.setTimeBuy(now);//5
-            cart.setTotal(total);
+
 
             //update cart
             //update List
@@ -123,16 +149,20 @@ public class CartView {
 
     public void showUserCart(User user) {
         Cart cart = userCart(user);
-        System.out.println("cart --->" + cart);
-        List<OrderProduct> listOrder = cart.getListProductCart();
-        System.out.println("******************* User Cart *******************");
-        System.out.println("--Id----User----Product Follow----Quantity----Product Price----Total Price----");
-        listOrder.forEach(orderProduct -> {
-            System.out.print("--" + cart.getId() + "----" + cart.getUser().getName() + "----");
-            System.out.print("----" + orderProduct.getProduct().getProductName() + "----" + orderProduct.getQuantity() + "----");
-            System.out.println();
-        });
-        System.out.println("------------- Total :------------" + cart.getTotal() + " vnd -----");
+        if (cart==null){
+            System.out.println("Your cart is empty ! ");
+            new Navbar();
+        }else {
+            List<OrderProduct> listOrder = cart.getListProductCart();
+            System.out.println("******************* User Cart *******************");
+            System.out.println("--Id----User----Product Follow----Quantity----Product Price----Total Price----");
+            listOrder.forEach(orderProduct -> {
+                System.out.print("--" + cart.getId() + "----" + cart.getUser().getName() + "----");
+                System.out.print("----" + orderProduct.getProduct().getProductName() + "----" + orderProduct.getQuantity() + "-(items)---");
+                System.out.println();
+            });
+            System.out.println("------------- Total :------------" + cart.getTotal() + " vnd -----");
+        }
     }
 
     public void showListCart() {
