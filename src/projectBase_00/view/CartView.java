@@ -5,12 +5,12 @@ import projectBase_00.controller.CartController;
 import projectBase_00.controller.UserController;
 import projectBase_00.model.cart.Cart;
 import projectBase_00.model.cart.OrderProduct;
-import projectBase_00.model.product.Product;
 import projectBase_00.model.user.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class CartView {
     CartController cartController = new CartController();
@@ -93,7 +93,7 @@ public class CartView {
                 //khong ton tai user
                 //Case 2 : user in list cart is not existed .
                 cart = new Cart();
-                idCart=listCart.get(listCart.size()-1).getId()+1;
+                idCart = listCart.get(listCart.size() - 1).getId() + 1;
                 cart.setId(idCart);//1
                 orderProduct.setId(idOrderProduct);
                 orderProductList.add(orderProduct);
@@ -117,15 +117,15 @@ public class CartView {
 
     public void showUserCart(User user) {
         Cart cart = userCart(user);
-        if (cart==null){
+        if (cart == null) {
             System.out.println("Your cart is empty ! ");
             new Navbar();
-        }else {
+        } else {
             List<OrderProduct> listOrder = cart.getListProductCart();
             System.out.println("******************* User Cart *******************");
             System.out.println("--Id----User----Product Follow----Quantity----Product Price----Total Price----");
             listOrder.forEach(orderProduct -> {
-                System.out.print("--" + cart.getId() + "----" + cart.getUser().getName() + "----");
+                System.out.print("--" + orderProduct.getProduct().getId() + "----" + cart.getUser().getName() + "----");
                 System.out.print("----" + orderProduct.getProduct().getProductName() + "----" + orderProduct.getQuantity() + "-(items)---");
                 System.out.println();
             });
@@ -139,17 +139,45 @@ public class CartView {
         System.out.println("listCart-->>>" + listCart);
         System.out.println("---User---------Product----------Quantity-------Total-----");
         listCart.forEach(cart -> {
+            System.out.println("------------- Total :------------" + cart.getTotal() + " vnd -----");
             System.out.println(cart.getUser().getUsername() + "----:");
             List<OrderProduct> orderProductList = cart.getListProductCart();
+//            int userTotal=0;
             for (int i = 0; i < orderProductList.size(); i++) {
                 System.out.println(orderProductList.get(i).getProduct().getProductName() + "----" + orderProductList.get(i).getQuantity() + "----");
+//                userTotal+=orderProductList.get(i).getProduct().getPrice()*orderProductList.get(i).getQuantity();
             }
             System.out.println("------------- Total :------------" + cart.getTotal() + " vnd -----");
         });
     }
 
-    public static void main(String[] args) {
-        User userLogin = new UserController().getUserLogin();
-        new CartView().showUserCart(userLogin);
+    public void menuBuyMoreOrDeleteProduct(User user) {
+        System.out.println("Buy more or Cancel Ordered Product");
+        System.out.println("0. Back to Menu");
+        System.out.println("1. Buy More");
+        System.out.println("2. Cancel");
+        int choice = Integer.parseInt(Config.scanner.nextLine());
+        switch (choice) {
+            case 0:
+                new Navbar();
+                break;
+            case 1:
+                new ProductView().buyProduct();
+                break;
+            case 2:
+                deleteProductInListOrder(user);
+                break;
+            default:
+                System.out.println("Invalid Input Number. Please try again !");
+                menuBuyMoreOrDeleteProduct(user);
+        }
+    }
+
+    public void deleteProductInListOrder(User user) {
+//        showUserCart(user);
+        System.out.println("Select id : ");
+        int idProduct = Integer.parseInt(Config.scanner.nextLine());
+        cartController.deleteProductById(user, idProduct);
+        System.out.println(" Delete successfully ");
     }
 }

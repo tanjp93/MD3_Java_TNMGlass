@@ -2,6 +2,7 @@ package projectBase_00.service.cart;
 
 import projectBase_00.config.Config;
 import projectBase_00.model.cart.Cart;
+import projectBase_00.model.cart.OrderProduct;
 import projectBase_00.model.user.User;
 import projectBase_00.service.user.UserServiceIMPL;
 
@@ -68,5 +69,21 @@ public class CartService implements ICartService {
             }
         }
         return null;
+    }
+    public void deleteProductById(User user, int idOrderProduct) {
+        if (listCart.size() != 0) {
+            Cart cart = findByUser(user);
+            int index=listCart.indexOf(cart);
+            List<OrderProduct> orderProductList=cart.getListProductCart();
+            for (OrderProduct o:orderProductList) {
+                if (o.getProduct().getId()==idOrderProduct){
+                    orderProductList.remove(o);
+                    break;
+                };
+            }
+            cart.setListProductCart(orderProductList);
+            listCart.set(index,cart);
+        }
+        new Config<Cart>().writeToFile(Config.PATH_CART, listCart);
     }
 }

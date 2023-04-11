@@ -6,6 +6,7 @@ import projectBase_00.model.user.User;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Cart implements Serializable {
     private int id;
@@ -68,11 +69,13 @@ public class Cart implements Serializable {
     }
 
     public long getTotal() {
+        total=0;
         for (int i = 0; i < getListProductCart().size(); i++) {
             total += getListProductCart().get(i).getQuantity() * getListProductCart().get(i).getProduct().getPrice();
         }
         return total;
     }
+
 
     public void setTotal(long total) {
         this.total = total;
@@ -89,4 +92,5 @@ public class Cart implements Serializable {
                 ", total=" + total +
                 ']';
     }
+
 }

@@ -26,6 +26,7 @@ Navbar {
         switch (choiceMenu) {
             case 1:
                 new CategoryView();
+
                 break;
             case 2:
                 break;

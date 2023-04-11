@@ -6,4 +6,6 @@ import projectBase_00.service.IGenericService;
 
 public interface ICartService extends IGenericService<Cart> {
     public Cart findByUser(User user);
+
+    void deleteProductById(User user, int id);
 }

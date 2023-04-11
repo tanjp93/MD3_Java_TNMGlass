@@ -164,6 +164,7 @@ public class ProductView {
                 break;
             case 1:
                 buyProduct();
+
                 new Navbar();
                 break;
             case 2:
@@ -185,6 +186,8 @@ public class ProductView {
         }
         OrderProduct orderProduct = new OrderProductView().oderListProduct();
         new CartView().addProductToListCart(userLogin, orderProduct);
+        new CartView().showUserCart(userLogin);
+        new CartView().menuBuyMoreOrDeleteProduct(userLogin);
     }
 
 
