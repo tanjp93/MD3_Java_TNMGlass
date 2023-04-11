@@ -4,7 +4,8 @@ import projectBase_00.config.Config;
 import projectBase_00.controller.UserController;
 import projectBase_00.model.user.User;
 
-public class Navbar {
+public class
+Navbar {
     public Navbar() {
         UserController userController = new UserController();
         User userLogin = userController.getUserLogin();

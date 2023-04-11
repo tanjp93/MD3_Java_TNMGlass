@@ -18,13 +18,13 @@ public class Cart implements Serializable {
     public Cart() {
     }
 
-    public Cart(int id, User user, List<OrderProduct> listProductCart, String status, LocalDateTime timeBuy, long total) {
+    public Cart(int id, User user, List<OrderProduct> listProductCart, String status, LocalDateTime timeBuy) {
         this.id = id;
         this.user = user;
         this.listProductCart = listProductCart;
         this.status = status;
         this.timeBuy = timeBuy;
-        this.total = total;
+        this.total = getTotal();
     }
 
     public int getId() {
@@ -68,6 +68,9 @@ public class Cart implements Serializable {
     }
 
     public long getTotal() {
+        for (int i = 0; i < getListProductCart().size(); i++) {
+            total += getListProductCart().get(i).getQuantity() * getListProductCart().get(i).getProduct().getPrice();
+        }
         return total;
     }
 
