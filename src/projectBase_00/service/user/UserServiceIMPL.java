@@ -5,6 +5,8 @@ import projectBase_00.dto.request.RegisterDTO;
 import projectBase_00.model.user.User;
 import projectBase_00.view.Navbar;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.List;
 
 public class UserServiceIMPL implements IUserService {
@@ -93,10 +95,12 @@ public class UserServiceIMPL implements IUserService {
         if (getCurrentUser()==null){
             return false;
         }else{
-            for (int i = 0; i <userLogin.size() ; i++) {
-                userLogin.remove(i);
+            try {
+                PrintWriter pw = new PrintWriter(Config.PATH_LOGIN);
+                pw.close();
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
             }
-            new Config<User>().writeToFile(Config.PATH_LOGIN,userLogin);
             return true;
         }
     }

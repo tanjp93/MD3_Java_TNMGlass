@@ -2,12 +2,19 @@ package projectBase_00.model.cart;
 
 import projectBase_00.model.product.Product;
 
-public class OrderProduct {
+import java.io.Serializable;
+
+public class OrderProduct implements Serializable {
     private int id;
     private Product product;
     private int quantity;
 
     public OrderProduct() {
+    }
+
+    public OrderProduct(Product product, int quantity) {
+        this.product = product;
+        this.quantity = quantity;
     }
 
     public OrderProduct(int id, Product product, int quantity) {

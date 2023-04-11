@@ -15,7 +15,7 @@ public class CartController extends CartService {
     public List<Cart> getListCart(){
         return cartService.findAll();
     }
-    public void addProductToCart(Cart cart){
+    public void addToCart(Cart cart){
         cartService.save(cart);
     }
     public void update(Cart cart){

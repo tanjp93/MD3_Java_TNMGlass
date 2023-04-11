@@ -18,10 +18,10 @@ public class UserView {
     List<User> userList = userController.getListUser();
 
     public void showLogInLogOut() {
-        User user = userController.getUserLogin();
+        User userLogin = userController.getUserLogin();
         Set<Role> roleSetLogin = null;
-        if (user != null) {
-            roleSetLogin = user.getRoles();
+        if (userLogin != null) {
+            roleSetLogin = userLogin.getRoles();
             System.out.println("1. Show personalInfo");
             System.out.println("2. Edit personalInfo");
             System.out.println("3. LogOut");
@@ -29,7 +29,10 @@ public class UserView {
                 if (role.getRoleName() == RoleName.ADMIN) {
                     System.out.println("4. List User Management");
                 }
+
             });
+            System.out.println("5. List Order");
+
 
             int chooseMenu = Integer.parseInt(Config.scanner.nextLine());
             switch (chooseMenu) {
@@ -54,6 +57,16 @@ public class UserView {
                     });
                     editUserByAdmin();
                     new Navbar();
+                    break;
+                case 5:
+                    roleSetLogin.forEach(role -> {
+                        if (role.getRoleName() == RoleName.ADMIN || role.getRoleName() == RoleName.PM) {
+                            new CartView().showListCart();
+                        } else {
+                            new CartView().showUserCart(userLogin);
+                            new Navbar();
+                        }
+                    });
                     break;
                 default:
                     System.out.println("Invalid Choice");
@@ -98,7 +111,7 @@ public class UserView {
         String password = Config.scanner.nextLine();
         password = userController.checkPassword(password);
         Set<String> strRole = new HashSet<>();
-        strRole.add("user");
+        strRole.add("admin");
         RegisterDTO register = new RegisterDTO(id, name, username, email, password, strRole);
         while (true) {
             ResponseMessage responseMessage = userController.register(register);
@@ -147,10 +160,10 @@ public class UserView {
 
     public void showListUser() {
         System.out.println("*****************************User Manage*****************************");
-        System.out.println("--ID----Username----Email----Role----Status");
+        System.out.println("--ID----Username----Email----Role----Status----Password----");
         for (User user : userList) {
             System.out.println("--" + user.getId() + "----" + user.getUsername() + "----" + user.getEmail() + "----" +
-                    user.getRoles().toString() + "----" + ((!user.isStatus()) ? "Block" : "Active"));
+                    user.getRoles().toString() + ((!user.isStatus()) ? "Block" : "Active") + "----" + user.getPassword());
         }
     }
 
@@ -163,7 +176,7 @@ public class UserView {
         User loginUser = getUserLoginInfo();
         System.out.println("----Name----username----email---------password----avatar----roles");
         for (Role role : loginUser.getRoles()) {
-            System.out.print("----" + loginUser.getName() + "----" + loginUser.getUsername() + "----" + loginUser.getEmail() + "----" + loginUser.getPassword() + "----" + loginUser.getPassword() + "----" + ((loginUser.getAvatar() == null) ? " No Img " : "Update new One"));
+            System.out.print("----" + loginUser.getName() + "----" + loginUser.getUsername() + "----" + loginUser.getEmail() + "----" + loginUser.getPassword() + "----" + ((loginUser.getAvatar() == null) ? " No Img " : "Update new One"));
             if (role.getRoleName() == RoleName.PM) {
                 System.out.println("----" + "MANAGER" + "----");
             } else if (role.getRoleName() == RoleName.USER) {
@@ -180,16 +193,15 @@ public class UserView {
         System.out.println("Enter the name: ");
         String name = Config.scanner.nextLine();
         System.out.println("Enter the email: ");
-        String email = Config.scanner.nextLine();
-        userController.checkEmail(email);
+        String email = userController.checkEmail(Config.scanner.nextLine());
         System.out.println("Enter the password: ");
-        String password = Config.scanner.nextLine();
-        userController.checkPassword(password);
+        String password = userController.checkPassword(Config.scanner.nextLine());
         System.out.println("Set Avatar: ");
         String avatar = Config.scanner.nextLine();
-        User user = new User(loginUser.getId(), loginUser.getUsername(), email, password, avatar, true, loginUser.getRoles(), loginUser.getUserCart());
+        User user = new User(loginUser.getId(), name, loginUser.getUsername(), email, password, loginUser.isStatus(), avatar, loginUser.getRoles());
         userController.updateUser(user);
         System.out.println("Update Info success ! ");
+        userController.logOutUser();
     }
 
     public void editUserByAdmin() {
@@ -207,8 +219,8 @@ public class UserView {
         System.out.println("Change Status");
         System.out.println("0. Block");
         System.out.println("1. Active");
-        int setStt=Integer.parseInt(Config.scanner.nextLine());
-         boolean status=(setStt==0)?false:true;
+        int setStt = Integer.parseInt(Config.scanner.nextLine());
+        boolean status = (setStt == 0) ? false : true;
         user.setRoles(roleSet);
         user.setStatus(status);
         userController.updateUser(user);

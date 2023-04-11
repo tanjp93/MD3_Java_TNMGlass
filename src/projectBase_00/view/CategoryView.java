@@ -20,14 +20,15 @@ public class CategoryView {
 
     public CategoryView() {
         List<ResponseMessage> responseMessageList = userController.checkRole();
-        System.out.println(responseMessageList);
 //        while (true) {
         System.out.println("======================= Category  ===========================");
         System.out.println("1. List Category");
-        if (responseMessageList.get(0).getMessage() != "user") {
-            System.out.println("2. Create a new Category");
-            System.out.println("3. Update Category");
-            System.out.println("4. Delete Category");
+        if (userController.getUserLogin()!=null){
+            if (responseMessageList.get(0).getMessage() != "user") {
+                System.out.println("2. Create a new Category");
+                System.out.println("3. Update Category");
+                System.out.println("4. Delete Category");
+            }
         }
         System.out.println("5. All Product");
         System.out.println("Enter 0 to back to Menu !");
@@ -66,10 +67,7 @@ public class CategoryView {
                 }
                 break;
             case 5:
-                new ProductView().showAllListProduct();
-                System.out.println("Input Product Id");
-                int id=Integer.parseInt(Config.scanner.nextLine());
-                new ProductView().showListProductByCategory(id);
+                new ProductView().menuProduct();
                 break;
             case 0:
                 new Navbar();
@@ -129,5 +127,4 @@ public class CategoryView {
         return categoryController.detailCategory(id);
     }
 
-//    public
 }

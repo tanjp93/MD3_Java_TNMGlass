@@ -24,8 +24,8 @@ public class CartService implements ICartService {
                 listCart.add(cart);
             } else {
                 //Update cart by User
-                int id = listCart.indexOf(findByUser(cart.getUser()));
-                listCart.set(id, cart);
+                int index = listCart.indexOf(findByUser(cart.getUser()));
+                listCart.set(index, cart);
             }
         }
         new Config<Cart>().writeToFile(Config.PATH_CART, listCart);
@@ -61,10 +61,10 @@ public class CartService implements ICartService {
     @Override
     public Cart findByUser(User user) {
         if (listCart.size() != 0) {
-            for (Cart cart : listCart) {
-                if (cart.getUser().getId() == user.getId()) {
-                    return cart;
-                } else return null;
+            for (int i = 0; i < listCart.size(); i++) {
+                if (listCart.get(i).getUser().getId() == user.getId()) {
+                    return listCart.get(i);
+                }
             }
         }
         return null;

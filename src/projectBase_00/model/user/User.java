@@ -18,9 +18,9 @@ public class User implements Serializable {
     private String avatar;
     private boolean status=true;
     private Set<Role> roles = new HashSet<>();
-    private List<Product> userCart=new ArrayList<Product>();
 
-    public User(int id, String name, String username, String email, String password, boolean status, Set<Role> roles, List<Product> userCart) {
+
+    public User(int id, String name, String username, String email, String password, boolean status, String avatar, Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -29,7 +29,6 @@ public class User implements Serializable {
         this.avatar = avatar;
         this.status = status;
         this.roles = roles;
-        this.userCart = userCart;
     }
 
     public User(int id, String name, String username, String email, String password, Set<Role> roleSet) {
@@ -106,13 +105,9 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
-    public List<Product> getUserCart() {
-        return userCart;
-    }
 
-    public void setUserCart(List<Product> userCart) {
-        this.userCart = userCart;
-    }
+
+
 
     @Override
     public String toString() {
@@ -125,7 +120,6 @@ public class User implements Serializable {
                 ", avatar='" + avatar + '\'' +
                 ", status=" + status +
                 ", roles=" + roles +
-                ", userCart=" + userCart +
                 ']';
     }
 }

@@ -4,7 +4,7 @@ import projectBase_00.model.product.Product;
 import projectBase_00.model.user.User;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Cart implements Serializable {
@@ -12,13 +12,13 @@ public class Cart implements Serializable {
     private User user;
     private List<OrderProduct> listProductCart;
     private String status;
-    private Date timeBuy;
+    private LocalDateTime timeBuy;
     private long total;
 
     public Cart() {
     }
 
-    public Cart(int id, User user, List<OrderProduct> listProductCart, String status, Date timeBuy, long total) {
+    public Cart(int id, User user, List<OrderProduct> listProductCart, String status, LocalDateTime timeBuy, long total) {
         this.id = id;
         this.user = user;
         this.listProductCart = listProductCart;
@@ -59,11 +59,11 @@ public class Cart implements Serializable {
         this.status = status;
     }
 
-    public Date getTimeBuy() {
+    public LocalDateTime getTimeBuy() {
         return timeBuy;
     }
 
-    public void setTimeBuy(Date timeBuy) {
+    public void setTimeBuy(LocalDateTime timeBuy) {
         this.timeBuy = timeBuy;
     }
 
