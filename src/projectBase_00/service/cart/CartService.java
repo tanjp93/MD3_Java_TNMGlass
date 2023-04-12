@@ -1,10 +1,13 @@
 package projectBase_00.service.cart;
 
 import projectBase_00.config.Config;
+import projectBase_00.controller.ProductController;
 import projectBase_00.model.cart.Cart;
 import projectBase_00.model.cart.OrderProduct;
+import projectBase_00.model.product.Product;
 import projectBase_00.model.user.User;
 import projectBase_00.service.user.UserServiceIMPL;
+import projectBase_00.view.ProductView;
 
 import java.util.List;
 
@@ -70,19 +73,28 @@ public class CartService implements ICartService {
         }
         return null;
     }
-    public void deleteProductById(User user, int idOrderProduct) {
+
+    public void deleteProductById(User user, int idProduct) {
+        ProductController productController=new ProductController();
+        int removeQuantity = 0;
+        Product product = new ProductView().findProductById(idProduct);
         if (listCart.size() != 0) {
             Cart cart = findByUser(user);
-            int index=listCart.indexOf(cart);
-            List<OrderProduct> orderProductList=cart.getListProductCart();
-            for (OrderProduct o:orderProductList) {
-                if (o.getProduct().getId()==idOrderProduct){
-                    orderProductList.remove(o);
+            int index = listCart.indexOf(cart);
+            List<OrderProduct> orderProductList = cart.getListProductCart();
+            for (OrderProduct orderProduct : orderProductList) {
+                if (orderProduct.getProduct().getId() == idProduct) {
+                    orderProductList.remove(orderProduct);
+                    removeQuantity = orderProduct.getQuantity();
                     break;
-                };
+                }
+                ;
             }
             cart.setListProductCart(orderProductList);
-            listCart.set(index,cart);
+            listCart.set(index, cart);
+            //set stoke
+            product.setStoke(product.getStoke() + removeQuantity);
+            productController.updateProduct(product);
         }
         new Config<Cart>().writeToFile(Config.PATH_CART, listCart);
     }

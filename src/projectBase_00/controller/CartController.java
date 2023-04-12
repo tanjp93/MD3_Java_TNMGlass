@@ -28,7 +28,7 @@ public class CartController extends CartService {
       return   cartService.findByUser(user);
     }
 
-    public void deleteProductById(User user, int id){
-        cartService.deleteProductById(user, id);
+    public void deleteProductById(User user, int idProduct){
+        cartService.deleteProductById(user, idProduct);
     }
 }

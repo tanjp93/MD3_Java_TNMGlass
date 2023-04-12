@@ -1,6 +1,7 @@
 package projectBase_00.view;
 
 import projectBase_00.config.Config;
+import projectBase_00.config.InputMethod;
 import projectBase_00.controller.CategoryController;
 import projectBase_00.controller.ProductController;
 import projectBase_00.controller.UserController;
@@ -35,12 +36,12 @@ public class CategoryView {
         }
         System.out.println("5. All Product");
         System.out.println("Enter 0 to back to Menu !");
-        int choiceCategory = Integer.parseInt(Config.scanner.nextLine());
+        int choiceCategory = InputMethod.getInteger();
         switch (choiceCategory) {
             case 1:
                 showFormCategoryList();
                 System.out.println("Show product in categories ");
-                int categoryId=Integer.parseInt(Config.scanner.nextLine());
+                int categoryId=InputMethod.getInteger();
                 new ProductView().showListProductByCategory(categoryId);
                 if (responseMessageList.get(0).getMessage() == "user"){
                     new ProductView().buyOrBack();
@@ -104,7 +105,7 @@ public class CategoryView {
             id = categoryList.get(categoryList.size() - 1).getId() + 1;
         }
         System.out.println("Enter the category name : ");
-        String name = Config.scanner.nextLine();
+        String name = InputMethod.getString();
         Category category = new Category(id, name);
         categoryController.createCategoryToDB(category);
         System.out.println("-----------------------------------------------------------------");
@@ -114,9 +115,9 @@ public class CategoryView {
     public void formUpdateCategoryList() {
         showFormCategoryList();
         System.out.println("Enter Category Id need to Update");
-        int id = Integer.parseInt(Config.scanner.nextLine());
+        int id = InputMethod.getInteger();
         System.out.println("Enter Category name's update");
-        String name = Config.scanner.nextLine();
+        String name = InputMethod.getString();
         Category category = new Category(id, name);
         categoryController.updateCategory(category);
         productController.updateProductByCategory(category);
@@ -127,7 +128,7 @@ public class CategoryView {
     public void formDeleteCategoryList() {
         showFormCategoryList();
         System.out.println("Enter Category Id need to Update");
-        int id = Integer.parseInt(Config.scanner.nextLine());
+        int id = InputMethod.getInteger();
         categoryController.deleteCategory(id);
         System.out.println("-----------------------------------------------------------------");
         new CategoryView();

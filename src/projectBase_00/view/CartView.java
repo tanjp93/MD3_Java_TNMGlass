@@ -1,6 +1,7 @@
 package projectBase_00.view;
 
 import projectBase_00.config.Config;
+import projectBase_00.config.InputMethod;
 import projectBase_00.controller.CartController;
 import projectBase_00.controller.UserController;
 import projectBase_00.model.cart.Cart;
@@ -52,7 +53,7 @@ public class CartView {
                     System.out.println("Product is existed in your Cart! Would you like to change quantity?");
                     System.out.println("1. Go to Cart");
                     System.out.println("2. Change quantity");
-                    int choice = Integer.parseInt(Config.scanner.nextLine());
+                    int choice = InputMethod.getInteger();
                     switch (choice) {
                         case 1:
                             showUserCart(user);
@@ -126,7 +127,7 @@ public class CartView {
             System.out.println("--Id----User----Product Follow----Quantity----Product Price----Total Price----");
             listOrder.forEach(orderProduct -> {
                 System.out.print("--" + orderProduct.getProduct().getId() + "----" + cart.getUser().getName() + "----");
-                System.out.print("----" + orderProduct.getProduct().getProductName() + "----"+orderProduct.getProduct().getPrice()+"-- vnd/1 item --" + orderProduct.getQuantity() + "--(items)---");
+                System.out.print("----" + orderProduct.getProduct().getProductName() + "----"+orderProduct.getProduct().getPrice()+"-- vnd/1 item    " + orderProduct.getQuantity() + "--(items)---");
                 System.out.println();
             });
             System.out.println("------------- Total :------------" + cart.getTotal() + " vnd -----");
@@ -142,7 +143,7 @@ public class CartView {
             List<OrderProduct> orderProductList = cart.getListProductCart();
 //            int userTotal=0;
             for (int i = 0; i < orderProductList.size(); i++) {
-                System.out.println(orderProductList.get(i).getProduct().getProductName() + "----" +orderProductList.get(i).getProduct().getPrice()+"-- vnd/1 item --" + "----"+ orderProductList.get(i).getQuantity() + "--items--");
+                System.out.println(orderProductList.get(i).getProduct().getProductName() + "----" +orderProductList.get(i).getProduct().getPrice()+"-- vnd/1 item --" + "    "+ orderProductList.get(i).getQuantity() + "--items--");
 //                userTotal+=orderProductList.get(i).getProduct().getPrice()*orderProductList.get(i).getQuantity();
             }
             System.out.println("------------- Total :------------" + cart.getTotal() + " vnd -----");
@@ -154,7 +155,7 @@ public class CartView {
         System.out.println("0. Back to Menu");
         System.out.println("1. Buy More");
         System.out.println("2. Cancel");
-        int choice = Integer.parseInt(Config.scanner.nextLine());
+        int choice = InputMethod.getInteger();
         switch (choice) {
             case 0:
                 new Navbar();
@@ -174,7 +175,7 @@ public class CartView {
     public void deleteProductInListOrder(User user) {
 //        showUserCart(user);
         System.out.println("Select id : ");
-        int idProduct = Integer.parseInt(Config.scanner.nextLine());
+        int idProduct = InputMethod.getInteger();
         cartController.deleteProductById(user, idProduct);
         System.out.println(" Delete successfully ");
     }

@@ -1,6 +1,7 @@
 package projectBase_00.view;
 
 import projectBase_00.config.Config;
+import projectBase_00.config.InputMethod;
 import projectBase_00.controller.UserController;
 import projectBase_00.dto.request.LogInDTO;
 import projectBase_00.dto.request.RegisterDTO;
@@ -36,7 +37,7 @@ public class UserView {
             System.out.println("6. List Order");
 
 
-            int chooseMenu = Integer.parseInt(Config.scanner.nextLine());
+            int chooseMenu = InputMethod.getInteger();
             switch (chooseMenu) {
                 case 0:
                     new Navbar();
@@ -81,7 +82,7 @@ public class UserView {
                             new CartView().showListCart();
                         } else {
                             new CartView().showUserCart(userLogin);
-                            new Navbar();
+                            new CartView().menuBuyMoreOrDeleteProduct(userLogin);
                         }
                     });
                     break;
@@ -92,7 +93,7 @@ public class UserView {
         } else {
             System.out.println("1. Register");
             System.out.println("2. Login");
-            int chooseMenu = Integer.parseInt(Config.scanner.nextLine());
+            int chooseMenu = InputMethod.getInteger();
             switch (chooseMenu) {
                 case 1:
                     new UserView().formRegister();
@@ -118,14 +119,14 @@ public class UserView {
             id = userList.get(userList.size() - 1).getId() + 1;
         }
         System.out.println("Enter the name: ");
-        String name = Config.scanner.nextLine();
+        String name = InputMethod.getString();
         System.out.println("Enter the username: ");
-        String username = Config.scanner.nextLine();
+        String username = InputMethod.getString();
         System.out.println("Enter the email: ");
-        String email = Config.scanner.nextLine();
+        String email = InputMethod.getString();
         email = userController.checkEmail(email);
         System.out.println("Enter the password: ");
-        String password = Config.scanner.nextLine();
+        String password = InputMethod.getString();
         password = userController.checkPassword(password);
         Set<String> strRole = new HashSet<>();
         strRole.add("user");
@@ -135,12 +136,12 @@ public class UserView {
             if (responseMessage.getMessage().equals("user_existed")) {
                 System.out.println("Username existed! Please input another username !");
                 System.out.println("Enter the username: ");
-                username = Config.scanner.nextLine();
+                username = InputMethod.getString();
                 register.setUsername(username);
             } else if (responseMessage.getMessage().equals("email_existed")) {
                 System.out.println("Email existed! Please input another email !");
                 System.out.println("Enter the Email: ");
-                email = Config.scanner.nextLine();
+                email = InputMethod.getString();
                 register.setEmail(email);
             } else if (responseMessage.getMessage().equals("create_success")) {
                 System.out.println("Register Successfully !");
@@ -153,18 +154,18 @@ public class UserView {
     public void formLogin() {
         System.out.println("Form Login!");
         System.out.println("Enter your username: ");
-        String username = Config.scanner.nextLine();
+        String username = InputMethod.getString();
         System.out.println("Enter your password: ");
-        String password = Config.scanner.nextLine();
+        String password = InputMethod.getString();
         LogInDTO logInDTO = new LogInDTO(username, password);
         while (true) {
             ResponseMessage responseMessage = userController.Login(logInDTO);
             if (responseMessage.getMessage().equals("login_fail")) {
                 System.out.println("Please check your account again !");
                 System.out.println("Enter your username: ");
-                username = Config.scanner.nextLine();
+                username = InputMethod.getString();
                 System.out.println("Enter your password: ");
-                password = Config.scanner.nextLine();
+                password = InputMethod.getString();
                 logInDTO.setUsername(username);
                 logInDTO.setPassword(password);
             } else if (responseMessage.getMessage().equals("login_success")) {
@@ -208,13 +209,13 @@ public class UserView {
         showLoginUser();
         User loginUser = getUserLoginInfo();
         System.out.println("Enter the name: ");
-        String name = Config.scanner.nextLine();
+        String name = InputMethod.getString();
         System.out.println("Enter the email: ");
-        String email = userController.checkEmail(Config.scanner.nextLine());
+        String email = userController.checkEmail(InputMethod.getString());
         System.out.println("Enter the password: ");
-        String password = userController.checkPassword(Config.scanner.nextLine());
+        String password = userController.checkPassword(InputMethod.getString());
         System.out.println("Set Avatar: ");
-        String avatar = Config.scanner.nextLine();
+        String avatar = InputMethod.getString();
         User user = new User(loginUser.getId(), name, loginUser.getUsername(), email, password, loginUser.isStatus(), avatar, loginUser.getRoles());
         userController.updateUser(user);
         System.out.println("Update Info success ! ");
@@ -223,20 +224,20 @@ public class UserView {
 
     public void editUserByAdmin() {
         System.out.println("Enter UserId to update");
-        int id = Integer.parseInt(Config.scanner.nextLine());
+        int id = InputMethod.getInteger();
         User user = userController.findUserById(id);
         System.out.println("Enter the role: ");
         System.out.println("1. ADMIN");
         System.out.println("2. PM");
         System.out.println("3. USER");
-        int choice = Integer.parseInt(Config.scanner.nextLine());
+        int choice = InputMethod.getInteger();
         Set<Role> roleSet = new HashSet<>();
         Role role = new Role(0, (choice == 1) ? RoleName.ADMIN : (choice == 2) ? RoleName.PM : RoleName.USER);
         roleSet.add(role);
         System.out.println("Change Status");
         System.out.println("0. Block");
         System.out.println("1. Active");
-        int setStt = Integer.parseInt(Config.scanner.nextLine());
+        int setStt = InputMethod.getInteger();
         boolean status = (setStt == 0) ? false : true;
         user.setRoles(roleSet);
         user.setStatus(status);

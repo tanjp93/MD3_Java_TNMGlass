@@ -1,6 +1,7 @@
 package projectBase_00.view;
 
 import projectBase_00.config.Config;
+import projectBase_00.config.InputMethod;
 import projectBase_00.controller.AboutUsController;
 import projectBase_00.model.aboutUs.AboutUs;
 
@@ -19,7 +20,7 @@ public class AboutUsView {
         System.out.println("3. Edit Information ");
         System.out.println("4. Delete Information ");
         System.out.println("0. Back to Menu ");
-        int choose = Integer.parseInt(Config.scanner.nextLine());
+        int choose = InputMethod.getInteger();
         switch (choose) {
             case 0:
                 new Navbar();
@@ -63,6 +64,5 @@ public class AboutUsView {
         String title=Config.scanner.nextLine();
         new InfoView().addInforDetail();
         AboutUs newAboutUs=new AboutUs(idAboutUs,title,null);
-
     }
 }

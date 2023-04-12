@@ -20,34 +20,24 @@ public class OrderProductView {
     public OrderProduct oderListProduct() {
         OrderProduct orderProduct = null;
         System.out.println("Select Product");
-        int idProduct = Integer.parseInt(Config.scanner.nextLine());
+        int idProduct = InputMethod.getInteger();
         Product product = new ProductView().findProductById(idProduct);
         if (product == null) {
             System.out.println("Try again !");
             oderListProduct();
         }
         System.out.println("Input quantity");
-        int quantity = Integer.parseInt(Config.scanner.nextLine());
+        int quantity = InputMethod.getInteger();
         int stokeTemp = product.getStoke() - quantity;
         if (stokeTemp < 0) {
-            System.out.println(" Number of products in stock is " + stokeTemp);
             System.out.println("Try input quantity again or choose another product ");
-            System.out.println("0. Back to Menu");
-            System.out.println("1. Try again");
-            int choice = InputMethod.getInteger();
-            switch (choice) {
-                case 0:
-                    return null;
-                case 1:
-                    oderListProduct();
-                    break;
-            }
+            return null;
         } else {
             product.setStoke(product.getStoke() - quantity);
             new ProductController().updateProduct(product);
             orderProduct = new OrderProduct(product, quantity);
+            return orderProduct;
         }
-        return orderProduct;
     }
 
     public boolean checkProductInOrderList(List<OrderProduct> orderProductList, Product product) {
