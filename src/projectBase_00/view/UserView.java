@@ -22,20 +22,25 @@ public class UserView {
         Set<Role> roleSetLogin = null;
         if (userLogin != null) {
             roleSetLogin = userLogin.getRoles();
+            System.out.println("0. Back to menu");
             System.out.println("1. Show personalInfo");
             System.out.println("2. Edit personalInfo");
             System.out.println("3. LogOut");
             roleSetLogin.forEach(role -> {
                 if (role.getRoleName() == RoleName.ADMIN) {
                     System.out.println("4. List User Management");
+                    System.out.println("5. Product Management");
                 }
 
             });
-            System.out.println("5. List Order");
+            System.out.println("6. List Order");
 
 
             int chooseMenu = Integer.parseInt(Config.scanner.nextLine());
             switch (chooseMenu) {
+                case 0:
+                    new Navbar();
+                    break;
                 case 1:
                     showLoginUser();
                     new Navbar();
@@ -59,6 +64,18 @@ public class UserView {
                     new Navbar();
                     break;
                 case 5:
+                    roleSetLogin.forEach(role -> {
+                        if (role.getRoleName() == RoleName.ADMIN||role.getRoleName() == RoleName.PM) {
+                         new ProductView().menuProduct();
+                        } else {
+                            System.out.println("Invalid Choice");
+                            new Navbar();
+                        }
+                    });
+                    editUserByAdmin();
+                    new Navbar();
+                    break;
+                case 6:
                     roleSetLogin.forEach(role -> {
                         if (role.getRoleName() == RoleName.ADMIN || role.getRoleName() == RoleName.PM) {
                             new CartView().showListCart();

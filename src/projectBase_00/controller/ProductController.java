@@ -1,5 +1,6 @@
 package projectBase_00.controller;
 
+import projectBase_00.model.category.Category;
 import projectBase_00.model.product.Product;
 import projectBase_00.service.productService.IProductService;
 import projectBase_00.service.productService.ProductServiceIPML;
@@ -25,5 +26,8 @@ public class ProductController {
     }
     public void deleteProduct(int id){
         productService.deleteById(id);
+    }
+    public  void  updateProductByCategory(Category cate){
+        productService.updateAllProductByCategory(cate);
     }
 }

@@ -2,6 +2,7 @@ package projectBase_00.view;
 
 
 import projectBase_00.config.Config;
+import projectBase_00.config.InputMethod;
 import projectBase_00.controller.CartController;
 import projectBase_00.controller.CategoryController;
 import projectBase_00.controller.ProductController;
@@ -49,7 +50,12 @@ public class ProductView {
                     break;
                 case 1:
                     showAllListProduct();
-                    menuProduct();
+
+                    if (userController.getUserLogin() != null) {
+                        if (listResponse.get(0).getMessage() != "user") {
+                            new ProductView().buyOrBack();
+                        }else menuProduct();
+                    }
                     break;
                 case 2:
                     if (listResponse.get(0).getMessage() != "user") {
@@ -106,6 +112,8 @@ public class ProductView {
         String img = Config.scanner.nextLine();
         System.out.println("Product's Price");
         long price = Long.parseLong(Config.scanner.nextLine());
+        System.out.println("Stoke of Product");
+        int  stoke = Integer.parseInt(Config.scanner.nextLine());
         // Input End
         newProduct.setId(id);
         newProduct.setProductName(productName);
@@ -113,6 +121,7 @@ public class ProductView {
         newProduct.setPrice(price);
         newProduct.setImg(img);
         newProduct.setCategory(categoryController.detailCategory(categoryId));
+        newProduct.setStoke(stoke);
         productController.createNewProduct(newProduct);
         System.out.println("Create Product success !");
         System.out.println("---------------------------------------------------------------------------");
@@ -134,10 +143,13 @@ public class ProductView {
         new CategoryView(product).showFormCategoryList();
         int categoryId = Integer.parseInt(Config.scanner.nextLine());
 
+        System.out.println("Set Items in stoke");
+        int stoke=InputMethod.getInteger();
         product.setProductName(productName);
         product.setDescribe(describe);
         product.setPrice(price);
         product.setImg(image);
+        product.setStoke(stoke);
         product.setCategory(categoryController.detailCategory(categoryId));
 
         System.out.println("Update Product success !");
@@ -157,14 +169,14 @@ public class ProductView {
         System.out.println("0.Back to Menu");
         System.out.println("1.Buy Now");
         System.out.println("2.View Detail");
-        int choice = Integer.parseInt(Config.scanner.nextLine());
+//        int choice = Integer.parseInt(Config.scanner.nextLine());
+        int choice = InputMethod.getInteger();
         switch (choice) {
             case 0:
                 new Navbar();
                 break;
             case 1:
                 buyProduct();
-
                 new Navbar();
                 break;
             case 2:
@@ -185,9 +197,16 @@ public class ProductView {
             buyProduct();
         }
         OrderProduct orderProduct = new OrderProductView().oderListProduct();
+        if (orderProduct==null){
+            System.out.println("Order Fail !");
+            new Navbar();
+        }
         new CartView().addProductToListCart(userLogin, orderProduct);
         new CartView().showUserCart(userLogin);
         new CartView().menuBuyMoreOrDeleteProduct(userLogin);
+
+
+        //cap nhat lai stoke cua product
     }
 
 
@@ -196,22 +215,22 @@ public class ProductView {
         for (Product product : productList) {
             if (product.getCategory().getName().equals(category.getName())) {
                 System.out.println("===================== Products ========================");
-                System.out.println("----ID----Product----Describe----Image----Price----Category");
+                System.out.println("----ID----Product----Describe----Image----Price----Category----Stoke");
                 System.out.println("----" + product.getId() + "----" + product.getProductName() + "----" + product.getDescribe() +
-                        "----" + product.getImg() + "----" + product.getPrice() + " vnd" + "----" + product.getCategory().getName());
+                        "----" + product.getImg() + "----" + product.getPrice() + " vnd" + "----" + product.getCategory().getName()+"----"+product.getStoke());
             }
         }
     }
 
     public void showAllListProduct() {
         System.out.println("===================== Products ========================");
-        System.out.println("----ID----Product----Describe----Image----Price----Category");
+        System.out.println("----ID----Product----Describe----Image----Price----Category----Stoke");
         if (productList.size() == 0) {
             System.out.println("No product found ! ");
         } else {
             for (int i = 0; i < productList.size(); i++) {
                 System.out.println("----" + productList.get(i).getId() + "----" + productList.get(i).getProductName() + "----" + productList.get(i).getDescribe() +
-                        "----" + productList.get(i).getImg() + "----" + productList.get(i).getPrice() + " vnd" + "----" + productList.get(i).getCategory().getName());
+                        "----" + productList.get(i).getImg() + "----" + productList.get(i).getPrice() + " vnd" + "----" + productList.get(i).getCategory().getName()+"----"+productList.get(i).getStoke()+"--items--");
             }
         }
     }

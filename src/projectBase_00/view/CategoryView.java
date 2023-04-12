@@ -2,6 +2,7 @@ package projectBase_00.view;
 
 import projectBase_00.config.Config;
 import projectBase_00.controller.CategoryController;
+import projectBase_00.controller.ProductController;
 import projectBase_00.controller.UserController;
 import projectBase_00.dto.response.ResponseMessage;
 import projectBase_00.model.category.Category;
@@ -14,6 +15,8 @@ public class CategoryView {
     CategoryController categoryController = new CategoryController();
     List<Category> categoryList = categoryController.getListCategory();
     UserController userController = new UserController();
+    ProductController productController = new ProductController();
+
 
     public CategoryView(Product product) {
     }
@@ -39,7 +42,11 @@ public class CategoryView {
                 System.out.println("Show product in categories ");
                 int categoryId=Integer.parseInt(Config.scanner.nextLine());
                 new ProductView().showListProductByCategory(categoryId);
-                new ProductView().buyOrBack();
+                if (responseMessageList.get(0).getMessage() == "user"){
+                    new ProductView().buyOrBack();
+                }else {
+                    new ProductView().menuProduct();
+                }
                 break;
             case 2:
                 if (responseMessageList.get(0).getMessage() != "user") {
@@ -67,7 +74,9 @@ public class CategoryView {
                 }
                 break;
             case 5:
+                new ProductView().showAllListProduct();
                 new ProductView().menuProduct();
+                new Navbar();
                 break;
             case 0:
                 new Navbar();
@@ -110,6 +119,7 @@ public class CategoryView {
         String name = Config.scanner.nextLine();
         Category category = new Category(id, name);
         categoryController.updateCategory(category);
+        productController.updateProductByCategory(category);
         System.out.println("-----------------------------------------------------------------");
         new CategoryView();
     }

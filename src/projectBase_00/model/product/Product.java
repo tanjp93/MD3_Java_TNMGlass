@@ -11,18 +11,19 @@ public class Product implements Serializable {
     private String img;
     private long price;
     private Category category;
-
+    private  int stoke;
 
     public Product() {
     }
 
-    public Product(int id, String productName, String describe, String img, long price, Category category) {
+    public Product(int id, String productName, String describe, String img, long price, Category category, int stoke) {
         this.id = id;
         this.productName = productName;
         this.describe = describe;
         this.img = img;
         this.price = price;
         this.category = category;
+        this.stoke=stoke;
     }
 
     public int getId() {
@@ -73,15 +74,23 @@ public class Product implements Serializable {
         this.category = category;
     }
 
+    public int getStoke() {
+        return stoke;
+    }
+    public void setStoke(int stoke) {
+        this.stoke = stoke;
+    }
+
     @Override
     public String toString() {
-        return "Product[" +
+        return "Product{" +
                 "id=" + id +
                 ", productName='" + productName + '\'' +
                 ", describe='" + describe + '\'' +
                 ", img='" + img + '\'' +
                 ", price=" + price +
                 ", category=" + category +
-                ']';
+                ", stoke=" + stoke +
+                '}';
     }
 }

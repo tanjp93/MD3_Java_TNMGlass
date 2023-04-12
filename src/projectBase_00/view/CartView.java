@@ -126,7 +126,7 @@ public class CartView {
             System.out.println("--Id----User----Product Follow----Quantity----Product Price----Total Price----");
             listOrder.forEach(orderProduct -> {
                 System.out.print("--" + orderProduct.getProduct().getId() + "----" + cart.getUser().getName() + "----");
-                System.out.print("----" + orderProduct.getProduct().getProductName() + "----" + orderProduct.getQuantity() + "-(items)---");
+                System.out.print("----" + orderProduct.getProduct().getProductName() + "----"+orderProduct.getProduct().getPrice()+"-- vnd/1 item --" + orderProduct.getQuantity() + "--(items)---");
                 System.out.println();
             });
             System.out.println("------------- Total :------------" + cart.getTotal() + " vnd -----");
@@ -138,11 +138,11 @@ public class CartView {
         List<Cart> listCart = cartController.getListCart();
         System.out.println("---User---------Product----------Quantity-------Total-----");
         listCart.forEach(cart -> {
-            System.out.println(cart.getUser().getUsername() + "----:");
+            System.out.println("----"+cart.getUser().getUsername() + "----:");
             List<OrderProduct> orderProductList = cart.getListProductCart();
 //            int userTotal=0;
             for (int i = 0; i < orderProductList.size(); i++) {
-                System.out.println(orderProductList.get(i).getProduct().getProductName() + "----" + orderProductList.get(i).getQuantity() + "----");
+                System.out.println(orderProductList.get(i).getProduct().getProductName() + "----" +orderProductList.get(i).getProduct().getPrice()+"-- vnd/1 item --" + "----"+ orderProductList.get(i).getQuantity() + "--items--");
 //                userTotal+=orderProductList.get(i).getProduct().getPrice()*orderProductList.get(i).getQuantity();
             }
             System.out.println("------------- Total :------------" + cart.getTotal() + " vnd -----");

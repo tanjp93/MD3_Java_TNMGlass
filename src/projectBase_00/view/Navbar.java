@@ -1,6 +1,7 @@
 package projectBase_00.view;
 
 import projectBase_00.config.Config;
+import projectBase_00.config.InputMethod;
 import projectBase_00.controller.UserController;
 import projectBase_00.model.user.User;
 
@@ -22,11 +23,11 @@ Navbar {
             System.out.println("7. " + userLogin.getName());
         }
         System.out.println("Enter your choice : ");
-        int choiceMenu = Integer.parseInt(Config.scanner.nextLine());
+//        int choiceMenu = Integer.parseInt(Config.scanner.nextLine());
+        int choiceMenu = InputMethod.getInteger();
         switch (choiceMenu) {
             case 1:
                 new CategoryView();
-
                 break;
             case 2:
                 new AboutUsView().showAllInfo();
@@ -42,6 +43,7 @@ Navbar {
                 break;
             case 7:
                 new UserView().showLogInLogOut();
+                new Navbar();
                 break;
         }
     }
