@@ -1,9 +1,8 @@
 package projectBase_00.service.user;
 
 import projectBase_00.config.Config;
-import projectBase_00.dto.request.RegisterDTO;
 import projectBase_00.model.user.User;
-import projectBase_00.view.Navbar;
+
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -77,7 +76,14 @@ public class UserServiceIMPL implements IUserService {
                 //login success
                 userLogin.add(userList.get(i));
                 new Config<User>().writeToFile(Config.PATH_LOGIN, userLogin);
-                return  true;
+                User user=getCurrentUser();
+                if (user.isStatus()){
+                    return  true;
+                }else {
+                    exit();
+                    System.out.println("Your account is blocked");
+                    return false;
+                }
             }
         }
         return false;

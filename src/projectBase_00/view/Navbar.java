@@ -29,6 +29,8 @@ Navbar {
 
                 break;
             case 2:
+                new AboutUsView().showAllInfo();
+                new Navbar();
                 break;
             case 3:
                 break;

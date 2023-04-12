@@ -136,10 +136,8 @@ public class CartView {
     public void showListCart() {
         CartController cartController = new CartController();
         List<Cart> listCart = cartController.getListCart();
-        System.out.println("listCart-->>>" + listCart);
         System.out.println("---User---------Product----------Quantity-------Total-----");
         listCart.forEach(cart -> {
-            System.out.println("------------- Total :------------" + cart.getTotal() + " vnd -----");
             System.out.println(cart.getUser().getUsername() + "----:");
             List<OrderProduct> orderProductList = cart.getListProductCart();
 //            int userTotal=0;

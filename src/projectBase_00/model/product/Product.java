@@ -12,6 +12,7 @@ public class Product implements Serializable {
     private long price;
     private Category category;
 
+
     public Product() {
     }
 

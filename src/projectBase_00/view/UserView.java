@@ -111,7 +111,7 @@ public class UserView {
         String password = Config.scanner.nextLine();
         password = userController.checkPassword(password);
         Set<String> strRole = new HashSet<>();
-        strRole.add("admin");
+        strRole.add("user");
         RegisterDTO register = new RegisterDTO(id, name, username, email, password, strRole);
         while (true) {
             ResponseMessage responseMessage = userController.register(register);
