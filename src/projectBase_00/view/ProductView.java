@@ -192,7 +192,7 @@ public class ProductView {
         OrderProduct orderProduct = new OrderProductView().oderListProduct();
         if (orderProduct==null){
             System.out.println("Your Order Failed !");
-            orderProduct = new OrderProductView().oderListProduct();
+           return;
         }
         new CartView().addProductToListCart(userLogin, orderProduct);
         new CartView().showUserCart(userLogin);
