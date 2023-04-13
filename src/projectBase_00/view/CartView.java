@@ -80,7 +80,13 @@ public class CartView {
                     }
                 } else {
                     //co user nhung chua co proudct in List
-                    idOrderProduct = orderProductList.get(orderProductList.size() - 1).getId() + 1;
+                    idOrderProduct = 0;
+                    if (orderProductList.isEmpty()) {
+                        idOrderProduct = 1;
+                    } else {
+                        idOrderProduct = orderProductList.get(orderProductList.size() - 1).getId() + 1;
+                    }
+
                     orderProduct.setId(idOrderProduct);
                     orderProductList.add(orderProduct);
                     // ***************************** //
